@@ -4,7 +4,7 @@ Created on Mon Aug 26 14:57:30 2019
 
 @author: lixin
 """
-
+from __future__ import division, print_function
 import tensorflow as tf
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split

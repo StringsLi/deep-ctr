@@ -4,11 +4,12 @@ Created on Thu Aug 29 09:08:52 2019
 
 @author: lixin
 """
-
+from __future__ import division, print_function
 import numpy as np
 import tensorflow as tf
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
+
 
 data = load_breast_cancer()
 X_train, X_test, y_train, y_test = train_test_split(data.data, data.target, test_size=0.2,
