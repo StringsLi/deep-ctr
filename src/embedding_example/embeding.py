@@ -1,6 +1,5 @@
 import tensorflow as tf
 
-
 embedding = tf.constant(
     [
         [0.21,0.41,0.51,0.11],

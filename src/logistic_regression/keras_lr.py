@@ -65,3 +65,6 @@ if __name__ == '__main__':
     
     sam = (y_test-pred).reshape(-1,)
     print('acc is: ', Counter(sam)[0]/float(len(y_test)))
+
+    auc = metrics.roc_auc_score(pred, y_test)
+    print('auc is: ', auc)

@@ -19,7 +19,7 @@ import pandas as pd
 import argparse
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from collections import Counter
-
+from sklearn import metrics as metricsII
 from keras.layers import Dense
 from keras.layers import Input, concatenate, Embedding, Reshape
 from keras.layers import Flatten, Dropout
@@ -375,7 +375,8 @@ if __name__ == '__main__':
     Y_te_wd = y_test_deep  # wide or deep is the same here
 
     activation, loss, metrics = fit_param[method]
-    if metrics: metrics = [metrics]
+    if metrics:
+        metrics = [metrics]
 
     # WIDE
     w = Input(shape=(X_train_wide.shape[1],), dtype='float32', name='wide')
@@ -406,3 +407,6 @@ if __name__ == '__main__':
     y_test = Y_te_wd.reshape(-1,)
     print('acc is: ', Counter(y_test-pred)[0]/float(len(y_test)))
     print("\n", results)
+
+    auc = metricsII.roc_auc_score(pred, y_test)
+    print('auc is: ', auc)

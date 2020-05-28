@@ -203,7 +203,7 @@ class DeepFM(object):
             for i in range(n_epoch):
                 rand_index = np.random.choice(len(X_mat), size=batch_size)
                 rand_x = X_mat[rand_index]
-                rand_x_code=X_codes_mat[rand_index]
+                rand_x_code = X_codes_mat[rand_index]
                 rand_y = Y_mat[rand_index]
 
                 _, c = sess.run([optimizer, cost], feed_dict={X: rand_x, X_code: rand_x_code,Y: rand_y})
