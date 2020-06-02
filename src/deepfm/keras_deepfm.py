@@ -31,7 +31,7 @@ class DeepFM():
         fm_list = []
         product_list = []
                 
-        ### embedding part and fm part
+        # embedding part and fm part
         for feat in self.embedding_list:
             inp_temp = Input(shape=[1], name=feat)
             emb_temp = Flatten()(Embedding(self.mxlen_set[feat], self.emb_size)(inp_temp))
@@ -40,15 +40,15 @@ class DeepFM():
             emb_list.append(emb_temp)
             fm_list.append(fm_temp)
         
-        ## fm product part
+        # fm product part
         for i in range(0, len(emb_list)):
             for j in range(i+1, len(emb_list)):
                 temp = dot([emb_list[i], emb_list[j]], axes=1)
                 product_list.append(temp)
                         
-        ## dnn part
+        # dnn part
         dnn_part = Dense(128, activation='relu')(concatenate(emb_list))
-        ## fm_part
+        # fm_part
         fm_part = Dense(128, activation='relu')(concatenate(product_list+fm_list))
         inp = Dense(64, activation='relu')(concatenate([dnn_part, fm_part], axis=1))
         outp = Dense(1, activation='sigmoid')(inp)
