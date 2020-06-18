@@ -30,15 +30,15 @@ padded_docs = pad_sequences(encoded_docs, maxlen=max_length, padding='post')
 print(padded_docs)
 
 # define the model
-input = Input(shape=(4, ))
-x = Embedding(vocab_size, 12, input_length=max_length)(input)    #这一步对应的参数量为50*8
+input = Input(shape=(4,))
+x = Embedding(vocab_size, 12, input_length=max_length)(input)  # 这一步对应的参数量为50*8
 x = Flatten()(x)
 x = Dense(1, activation='sigmoid')(x)
 model = Model(inputs=input, outputs=x)
 # compile the model
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
 # summarize the model
-print(model.summary())  #输出模型结构
+print(model.summary())  # 输出模型结构
 
 # evaluate the model
 model.fit(padded_docs, labels, epochs=300, verbose=0)
@@ -46,6 +46,6 @@ loss, accuracy = model.evaluate(padded_docs, labels, verbose=0)
 loss_test, accuracy_test = model.evaluate(padded_docs, labels, verbose=0)
 print('Accuracy: %f' % (accuracy * 100))
 # test the model
-test = one_hot('good',50)
+test = one_hot('good', 50)
 padded_test = pad_sequences([test], maxlen=max_length, padding='post')
 print(model.predict(padded_test))

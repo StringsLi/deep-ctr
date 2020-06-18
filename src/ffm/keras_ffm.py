@@ -11,6 +11,7 @@ from sklearn import metrics
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 import keras_lr
+
 K = tf.keras.backend
 
 
@@ -23,7 +24,7 @@ class CrossLayer(tf.keras.layers.Layer):
         super(CrossLayer, self).__init__(**kwargs)
 
     def build(self, input_shape):
-        self.kernel = self.add_weight(name='kernel', 
+        self.kernel = self.add_weight(name='kernel',
                                       shape=(self.input_dim, self.field_dim, self.output_dim),
                                       initializer='glorot_uniform',
                                       trainable=True)
@@ -32,8 +33,9 @@ class CrossLayer(tf.keras.layers.Layer):
     def call(self, x):
         self.field_cross = K.variable(0, dtype='float32')
         for i in range(self.input_dim):
-            for j in range(i+1, self.input_dim):
-                weight = tf.reduce_sum(tf.multiply(self.kernel[i, self.field_dict[j]], self.kernel[j, self.field_dict[i]]))
+            for j in range(i + 1, self.input_dim):
+                weight = tf.reduce_sum(
+                    tf.multiply(self.kernel[i, self.field_dict[j]], self.kernel[j, self.field_dict[i]]))
                 value = tf.multiply(weight, tf.multiply(x[:, i], x[:, j]))
                 self.field_cross = tf.add(self.field_cross, value)
         return self.field_cross
@@ -66,7 +68,7 @@ if __name__ == '__main__':
 
     pred = ffm.predict(X_test)
     pred = keras_lr.convert_prob_into_class(pred)
-    pred = pred.reshape(-1,)
+    pred = pred.reshape(-1, )
     metrics.confusion_matrix(y_test, pred)
     acc = metrics.accuracy_score(pred, y_test)
-    print('acc is: ', Counter(y_test-pred)[0]/float(len(y_test)))
+    print('acc is: ', Counter(y_test - pred)[0] / float(len(y_test)))

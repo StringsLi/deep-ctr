@@ -1,8 +1,7 @@
 import tensorflow as tf
 from tensorflow.python.keras import Model
 from tensorflow.python.keras import backend as K
-from tensorflow.python.keras.layers import Input, Embedding,Dot, Flatten, Concatenate, Dense
-
+from tensorflow.python.keras.layers import Input, Embedding, Flatten, Concatenate, Dense
 from tensorflow.python.keras.layers import Layer
 from tensorflow.python.keras.initializers import Zeros, glorot_normal
 from tensorflow.python.keras.optimizers import Adam
@@ -284,7 +283,7 @@ xtest_data = {"Pclass": np.array(xtest["Pclass"]),
               "Parch": np.array(xtest["Parch"]),
               "Fare": np.array(xtest["Fare"])}
 
-deepfm_model = deepfm(sparse_feature_list, sparse_feature_reindex_dict,dense_feature_list)
+deepfm_model = deepfm(sparse_feature_list, sparse_feature_reindex_dict, dense_feature_list)
 
 print(deepfm_model.summary())
 

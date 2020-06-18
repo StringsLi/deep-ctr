@@ -188,10 +188,10 @@ def deep(df_train, df_test, embedding_cols, cont_cols, target, model_type, metho
     df_deep = pd.concat([df_train, df_test])
 
     deep_cols = embedding_cols + cont_cols
-    df_deep = df_deep[deep_cols + [target,'IS_TRAIN']]
+    df_deep = df_deep[deep_cols + [target, 'IS_TRAIN']]
     scaler = StandardScaler()
     df_deep[cont_cols] = pd.DataFrame(scaler.fit_transform(df_train[cont_cols]),
-        columns=cont_cols)
+                                      columns=cont_cols)
     df_deep, unique_vals = val2idx(df_deep, embedding_cols)
 
     train = df_deep[df_deep.IS_TRAIN == 1].drop('IS_TRAIN', axis=1)
@@ -205,14 +205,14 @@ def deep(df_train, df_test, embedding_cols, cont_cols, target, model_type, metho
         t_inp, t_build = embedding_input(
             layer_name, unique_vals[ec], n_factors, reg)
         embeddings_tensors.append((t_inp, t_build))
-        del(t_inp, t_build)
+        del (t_inp, t_build)
 
     continuous_tensors = []
     for cc in cont_cols:
         layer_name = cc + '_in'
         t_inp, t_build = continous_input(layer_name)
         continuous_tensors.append((t_inp, t_build))
-        del(t_inp, t_build)
+        del (t_inp, t_build)
 
     X_train = [train[c] for c in deep_cols]
     y_train = np.array(train[target].values).reshape(-1, 1)
@@ -263,7 +263,7 @@ def wide_deep(df_train, df_test, wide_cols, x_cols, embedding_cols, cont_cols, m
         wide(df_train, df_test, wide_cols, x_cols, target, model_type, method)
 
     X_train_deep, y_train_deep, X_test_deep, y_test_deep, deep_inp_embed, deep_inp_layer = \
-        deep(df_train, df_test, embedding_cols,cont_cols, target, model_type, method)
+        deep(df_train, df_test, embedding_cols, cont_cols, target, model_type, method)
 
     X_tr_wd = [X_train_wide] + X_train_deep
     Y_tr_wd = y_train_deep  # wide or deep is the same here
@@ -310,8 +310,8 @@ def convert_prob_into_class(probs):
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument("--method", type=str, default="logistic",help="fitting method")
-    ap.add_argument("--model_type", type=str, default="wide_deep",help="wide, deep or both")
+    ap.add_argument("--method", type=str, default="logistic", help="fitting method")
+    ap.add_argument("--model_type", type=str, default="wide_deep", help="wide, deep or both")
     ap.add_argument("--train_data", type=str, default="train.csv")
     ap.add_argument("--test_data", type=str, default="test.csv")
     args = vars(ap.parse_args())
@@ -325,12 +325,12 @@ if __name__ == '__main__':
     fit_param['regression'] = (None, 'mse', None)
     fit_param['multiclass'] = ('softmax', 'categorical_crossentropy', 'accuracy')
 
-#    df_train, df_test = maybe_download(train_data, test_data)
+    #    df_train, df_test = maybe_download(train_data, test_data)
     COLUMNS = ["age", "workclass", "fnlwgt", "education", "education_num",
                "marital_status", "occupation", "relationship", "race", "gender",
                "capital_gain", "capital_loss", "hours_per_week", "native_country",
                "income_bracket"]
-    
+
     df_train = pd.read_csv("../data/adult.data", names=COLUMNS, skipinitialspace=True)
     df_test = pd.read_csv("../data/adult.test", names=COLUMNS, skipinitialspace=True)
 
@@ -350,7 +350,7 @@ if __name__ == '__main__':
 
     # columns for wide model
     wide_cols = ['workclass', 'education', 'marital_status', 'occupation',
-        'relationship', 'race', 'gender', 'native_country', 'age_group']
+                 'relationship', 'race', 'gender', 'native_country', 'age_group']
     x_cols = (['education', 'occupation'], ['native_country', 'occupation'])
 
     # columns for deep model
@@ -362,12 +362,12 @@ if __name__ == '__main__':
     target = 'income_label'
 
     model_type = 'both'
-    
+
     X_train_wide, y_train_wide, X_test_wide, y_test_wide = \
-    wide(df_train, df_test, wide_cols, x_cols, target, model_type, method)
+        wide(df_train, df_test, wide_cols, x_cols, target, model_type, method)
 
     X_train_deep, y_train_deep, X_test_deep, y_test_deep, deep_inp_embed, deep_inp_layer = \
-    deep(df_train, df_test, embedding_cols, cont_cols, target, model_type, method)
+        deep(df_train, df_test, embedding_cols, cont_cols, target, model_type, method)
 
     X_tr_wd = [X_train_wide] + X_train_deep
     Y_tr_wd = y_train_deep  # wide or deep is the same here
@@ -401,11 +401,11 @@ if __name__ == '__main__':
     wide_deep.fit(X_tr_wd, Y_tr_wd, epochs=5, batch_size=128)
 
     results = wide_deep.evaluate(X_te_wd, Y_te_wd)
-    
+
     pred = wide_deep.predict(X_te_wd)
-    pred = pred.reshape(-1,)
-    y_test = Y_te_wd.reshape(-1,)
-    print('acc is: ', Counter(y_test-pred)[0]/float(len(y_test)))
+    pred = pred.reshape(-1, )
+    y_test = Y_te_wd.reshape(-1, )
+    print('acc is: ', Counter(y_test - pred)[0] / float(len(y_test)))
     print("\n", results)
 
     auc = metricsII.roc_auc_score(pred, y_test)
