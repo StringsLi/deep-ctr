@@ -17,7 +17,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-class DeepFM():
+class DeepFM:
     def __init__(self, embedding_list, emb_size, train_x, train_y, test_x, test_y):
         self.embedding_list = embedding_list
         self.emb_size = emb_size

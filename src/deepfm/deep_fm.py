@@ -180,15 +180,10 @@ def deepfm(sparse_feature_list,
            sparse_feature_reindex_dict,
            dense_feature_list,
            dnn_hidden_units=(128, 128),
-           l2_reg_embedding=1e-5,
-           l2_reg_linear=1e-5,
            l2_reg_dnn=0,
-           init_std=0.0001,
            seed=1024,
-           bi_dropout=0.2,
            dnn_dropout=0.2,
-           dnn_activation='relu',
-           task='binary'):
+           dnn_activation='relu'):
     sparse_input_layer_list = []
     sparse_embedding_layer_list = []
 
