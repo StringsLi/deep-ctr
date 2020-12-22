@@ -88,7 +88,7 @@ def val2idx(df, cols):
     for c in cols:
         val_types[c] = df[c].unique()
 
-    ## 将每一列的值转化为index
+    # 将每一列的值转化为index
     val_to_idx = dict()
     for k, v in val_types.items():
         val_to_idx[k] = {o: i for i, o in enumerate(val_types[k])}
