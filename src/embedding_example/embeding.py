@@ -14,8 +14,8 @@ get_embedding2 = tf.matmul(feature_batch_one_hot, embedding)
 
 get_embedding1 = tf.nn.embedding_lookup(embedding, feature_batch)
 
-with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
+with tf.compat.v1.Session() as sess:
+    sess.run(tf.compat.v1.global_variables_initializer())
     embedding1, embedding2 = sess.run([get_embedding1, get_embedding2])
     print(embedding1)
     print(embedding2)
