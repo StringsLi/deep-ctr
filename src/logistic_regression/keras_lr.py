@@ -21,7 +21,7 @@ def lr_model():
                                  activation=tf.nn.sigmoid)(inputs)
     lr = tf.keras.Model(inputs, pred)
     lr.compile(loss='binary_crossentropy',
-               optimizer=tf.train.AdamOptimizer(0.001),
+               optimizer=tf.optimizers.AdamOptimizer(0.001),
                metrics=['binary_accuracy'])
 
     return lr

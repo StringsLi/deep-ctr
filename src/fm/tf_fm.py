@@ -21,8 +21,8 @@ n, p = X_train.shape
 # 隐变量的个数
 k = 5
 
-X = tf.placeholder('float', shape=[None, p])
-y = tf.placeholder('float', shape=[None, 1])
+X = tf.compat.v1.placeholder('float', shape=[None, p])
+y = tf.compat.v1.placeholder('float', shape=[None, 1])
 
 w0 = tf.Variable(tf.zeros([1]))
 W = tf.Variable(tf.zeros([p]))
@@ -46,7 +46,7 @@ cross_entropy = tf.nn.sigmoid_cross_entropy_with_logits(labels=y, logits=y_hat)
 loss = tf.reduce_mean(cross_entropy)
 
 eta = tf.constant(0.05)
-optimizer = tf.train.AdagradOptimizer(eta).minimize(loss)
+optimizer = tf.optimizers.AdagradOptimizer(eta).minimize(loss)
 
 y_out_prob = tf.nn.sigmoid(y_hat)
 predicted = tf.cast(y_out_prob > 0.5, dtype=tf.float32)

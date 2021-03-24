@@ -53,9 +53,8 @@ def FM(feature_dim):
     predictions = tf.keras.layers.Activation('sigmoid')(add)
     model = tf.keras.Model(inputs=inputs, outputs=predictions)
     model.compile(loss='binary_crossentropy',
-                  optimizer=tf.train.AdamOptimizer(0.001),
+                  optimizer=tf.optimizers.Adam(0.001),
                   metrics=['binary_accuracy'])
-    print(model.summary())
     return model
 
 
